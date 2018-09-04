@@ -2,6 +2,10 @@
 
 from time import sleep
 from os import path,remove
+import yaml
+
+CONFIG_FILENAME = "config.yml"
+config = yaml.load(open(CONFIG_FILENAME))
 
 SLEEP_TIME=10
 
