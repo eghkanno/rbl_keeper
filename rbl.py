@@ -17,7 +17,10 @@ CALLCENTER_PORT = config["port"]
 
 # gpio settings
 ROTATION_TIME = config["rotation_time"]
+GPIO_OUT = config["gpio_out"]
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(GPIO_OUT, GPIO.OUT)
 
 # initialize
 if path.exists("stop"): remove("stop")
@@ -30,5 +33,7 @@ while not path.exists("stop"):
         t_ref = latest_call
     sleep(SLEEP_TIME)
 
+GPIO.output(GPIO_OUT, False)
+GPIO.cleanup()
 remove("stop")
 print("RBL stopped.")
