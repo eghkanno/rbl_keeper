@@ -5,6 +5,7 @@ from os import path, remove
 import yaml
 import requests as rq
 from datetime import datetime
+import RPi.GPIO as GPIO
 
 CONFIG_FILENAME = "config.yml"
 config = yaml.load(open(CONFIG_FILENAME))
@@ -13,6 +14,10 @@ config = yaml.load(open(CONFIG_FILENAME))
 SLEEP_TIME = float(config["sleep_time"])
 CALLCENTER_URL = config["url"]
 CALLCENTER_PORT = config["port"]
+
+# gpio settings
+ROTATION_TIME = config["rotation_time"]
+GPIO.setmode(GPIO.BCM)
 
 # initialize
 if path.exists("stop"): remove("stop")
