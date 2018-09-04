@@ -1,0 +1,10 @@
+[Unit]
+Description = Rbl
+
+[Service]
+ExecStart=/usr/bin/python /home/rblkeeper/rbl_keeper/rbl.py
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
