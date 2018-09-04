@@ -16,7 +16,7 @@ CALLCENTER_URL = config["url"]
 CALLCENTER_PORT = config["port"]
 
 # gpio settings
-ROTATION_TIME = config["rotation_time"]
+ROTATION_TIME = float(config["rotation_time"])
 GPIO_OUT = config["gpio_out"]
 
 def rblAlert(duration):
