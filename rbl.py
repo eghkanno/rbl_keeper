@@ -33,7 +33,8 @@ if path.exists("stop"): remove("stop")
 t_ref = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 while not path.exists("stop"):
-    responce = rq.get(CALLCENTER_URL + ":" + CALLCENTER_PORT)
+    #responce = rq.get(CALLCENTER_URL + ":" + CALLCENTER_PORT)
+    responce = rq.get(CALLCENTER_URL)
     latest_call = responce.json()["latest_call"]
     if latest_call > t_ref:
         rblAlert(ROTATION_TIME)
