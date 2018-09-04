@@ -34,7 +34,7 @@ t_ref = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 while not path.exists("stop"):
     responce = rq.get(CALLCENTER_URL + ":" + CALLCENTER_PORT)
-    latest_call = responce.json()["latest_call"]
+    latest_call = responce.json()["latest_call"] if responce.ok else t_ref
     if latest_call > t_ref:
         rblAlert(ROTATION_TIME)
         t_ref = latest_call
