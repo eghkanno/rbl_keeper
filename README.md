@@ -1,6 +1,9 @@
 # RBL Keeper
 Raspberry Pi zero上で走り、rbl_callcenterと連携して然るべきタイミングに回転灯を回す
 
+# Emergency Manual Breal / 緊急手動停止ボタン
+python break.py
+
 # 配線
 出力ピンを機器に接続する。
 デフォルトの設定では論理21番ピン(Raspberry Pi zeroの場合は物理40番ピン)が出力ピンになっている。
