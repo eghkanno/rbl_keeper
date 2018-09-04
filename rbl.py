@@ -22,6 +22,11 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(GPIO_OUT, GPIO.OUT)
 
+def rblAlert(duration):
+    GPIO.output(GPIO_OUT, True)
+    sleep(duration)
+    GPIO.output(GPIO_OUT, False)
+
 # initialize
 if path.exists("stop"): remove("stop")
 t_ref = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -30,6 +35,7 @@ while not path.exists("stop"):
     responce = rq.get(CALLCENTER_URL + ":" + CALLCENTER_PORT)
     latest_call = responce.json()["latest_call"]
     if latest_call > t_ref:
+        rblAlert(ROTATION_TIME)
         t_ref = latest_call
     sleep(SLEEP_TIME)
 
