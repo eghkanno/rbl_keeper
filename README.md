@@ -1,6 +1,11 @@
 # RBL Keeper
 Raspberry Pi zero上で走り、rbl_callcenterと連携して然るべきタイミングに回転灯を回す
 
+# 配線
+出力ピンを機器に接続する。
+デフォルトの設定では論理21番ピン(Raspberry Pi zeroの場合は物理40番ピン)が出力ピンになっている。
+出力ピンを変更する場合は後述の config.yml の該当箇所を編集する。
+
 # 導入
 1. /home/rblkeeper/ 直下にgit clone
 
