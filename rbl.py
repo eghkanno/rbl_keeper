@@ -5,7 +5,7 @@ from os import path, remove
 import yaml
 import requests as rq
 from datetime import datetime
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 
 CONFIG_FILENAME = "config.yml"
 config = yaml.load(open(CONFIG_FILENAME))
@@ -16,8 +16,8 @@ CALLCENTER_URL = config["url"]
 CALLCENTER_PASS = config["pass"]
 
 # gpio settings
-ROTATION_TIME = float(config["rotation_time"])
-GPIO_OUT = config["gpio_out"]
+#ROTATION_TIME = float(config["rotation_time"])
+#GPIO_OUT = config["gpio_out"]
 
 def rblAlert(duration):
     GPIO.setmode(GPIO.BCM)
