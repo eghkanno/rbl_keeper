@@ -13,7 +13,6 @@ config = yaml.load(open(CONFIG_FILENAME))
 # polling settings
 SLEEP_TIME = float(config["sleep_time"])
 CALLCENTER_URL = config["url"]
-CALLCENTER_PORT = config["port"]
 
 # gpio settings
 ROTATION_TIME = float(config["rotation_time"])
@@ -33,7 +32,7 @@ if path.exists("stop"): remove("stop")
 t_ref = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 while not path.exists("stop"):
-    response = rq.get(CALLCENTER_URL + ":" + CALLCENTER_PORT)
+    response = rq.get(CALLCENTER_URL)
     latest_call = response.json()["latest_call"] if response.ok else t_ref
     if latest_call > t_ref:
         rblAlert(ROTATION_TIME)
