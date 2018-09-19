@@ -11,7 +11,7 @@ config = yaml.load(open(CONFIG_FILENAME))
 
 # polling settings
 SLEEP_TIME = float(config["sleep_time"])
-CALLCENTER_URL = config["url"]
+CALLCENTER_URL = "localhost:8080" #config["url"]
 CALLCENTER_PASS = config["pass"]
 
 # initialize
