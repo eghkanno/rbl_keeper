@@ -5,7 +5,6 @@ from os import path, remove
 import yaml
 import requests as rq
 from datetime import datetime
-#import RPi.GPIO as GPIO
 
 CONFIG_FILENAME = "config.yml"
 config = yaml.load(open(CONFIG_FILENAME))
@@ -14,19 +13,6 @@ config = yaml.load(open(CONFIG_FILENAME))
 SLEEP_TIME = float(config["sleep_time"])
 CALLCENTER_URL = config["url"]
 CALLCENTER_PASS = config["pass"]
-
-# gpio settings
-#ROTATION_TIME = float(config["rotation_time"])
-#GPIO_OUT = config["gpio_out"]
-
-def rblAlert(duration):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    GPIO.setup(GPIO_OUT, GPIO.OUT)
-    GPIO.output(GPIO_OUT, True)
-    sleep(duration)
-    GPIO.output(GPIO_OUT, False)
-    GPIO.cleanup()
 
 # initialize
 if path.exists("stop"): remove("stop")
@@ -37,9 +23,6 @@ while not path.exists("stop"):
     response = rq.get(CALLCENTER_URL, headers=headers)
     print(response)
     #latest_call = response.json()["latest_call"] if response.ok else t_ref
-    #if latest_call > t_ref:
-    #    rblAlert(ROTATION_TIME)
-    #    t_ref = latest_call
     sleep(SLEEP_TIME)
 
 remove("stop")
