@@ -13,6 +13,7 @@ config = yaml.load(open(CONFIG_FILENAME))
 # polling settings
 SLEEP_TIME = float(config["sleep_time"])
 CALLCENTER_URL = config["url"]
+CALLCENTER_PASS = config["pass"]
 
 # gpio settings
 ROTATION_TIME = float(config["rotation_time"])

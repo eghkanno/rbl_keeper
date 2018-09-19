@@ -2,3 +2,4 @@
 "sleep_time": "10" # in seconds
 "rotation_time": "5" # in seconds
 "gpio_out": 21 # BCM mode
+"pass": "PASSWORD"
