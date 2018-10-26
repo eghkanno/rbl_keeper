@@ -1,0 +1,10 @@
+[Unit]
+Description = Rotary Beacon Light unit controller
+
+[Service]
+ExecStart=/usr/bin/python /home/rblkeeper/rbl.py
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
