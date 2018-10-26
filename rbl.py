@@ -2,7 +2,7 @@
 
 from time import sleep
 from os import path, remove
-import yaml
+import yaml, json
 import requests as rq
 from datetime import datetime
 import RPi.GPIO as GPIO
@@ -32,14 +32,15 @@ def rblAlert(duration):
 # initialize
 if path.exists("stop"): remove("stop")
 auth = rq.auth.HTTPBasicAuth(CALLCENTER_USER, CALLCENTER_PASS)
-t_ref = rq.get(CALLCENTER_URL+"now/", auth=auth)
+res = rq.get(CALLCENTER_URL+"now/", auth=auth)
+t_ref = res.json()["datetime"]
 
 while not path.exists("stop"):
-    response = rq.get(CALLCENTER_URL, auth=auth)
-    latest_call = response.json()["latest_call"] if response.ok else t_ref
-    if latest_call > t_ref:
+    res = rq.get(CALLCENTER_URL, auth=auth)
+    new_t = res.json()["datetime"] if res.ok else t_ref
+    if new_t > t_ref:
         rblAlert(ROTATION_TIME)
-        t_ref = latest_call
+        t_ref = new_t
     sleep(SLEEP_TIME)
 
 remove("stop")
