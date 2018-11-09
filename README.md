@@ -1,7 +1,8 @@
 # RBL Keeper
 Raspberry Pi zero上で走り、rbl_callcenterと連携して然るべきタイミングに回転灯を回す
 
-# Emergency Manual Breal / 緊急手動停止ボタン
+# Emergency Manual Break / 緊急手動停止コマンド
+ターミナル操作中に回転が止まらなくなった時
 python break.py
 
 # 配線
