@@ -2,7 +2,7 @@
 Description = Rotary Beacon Light controller
 
 [Service]
-ExecStart=/usr/bin/python /home/rblkeeper/rbl_keeper/rbl.py
+ExecStart=/usr/bin/python /home/rblkeeper/rbl_keeper/main.py
 Restart=always
 Type=simple
 
