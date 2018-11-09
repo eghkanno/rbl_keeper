@@ -7,7 +7,8 @@ import requests as rq
 from datetime import datetime
 import RPi.GPIO as GPIO
 
-CONFIG_FILENAME = "config.yml"
+dir_path = path.dirname(__file__)+"/"
+CONFIG_FILENAME = dir_path+"config.yml"
 config = yaml.load(open(CONFIG_FILENAME))
 
 # polling settings
@@ -30,12 +31,12 @@ def rblAlert(duration):
     GPIO.cleanup()
 
 # initialize
-if path.exists("stop"): remove("stop")
+if path.exists(dir_path+"stop"): remove(dir_path+"stop")
 auth = rq.auth.HTTPBasicAuth(CALLCENTER_USER, CALLCENTER_PASS)
 res = rq.get(CALLCENTER_URL+"now/", auth=auth)
 t_ref = res.json()["datetime"]
 
-while not path.exists("stop"):
+while not path.exists(dir_path+"stop"):
     res = rq.get(CALLCENTER_URL, auth=auth)
     new_t = res.json()["datetime"] if res.ok else t_ref
     if new_t > t_ref:
@@ -43,5 +44,5 @@ while not path.exists("stop"):
         t_ref = new_t
     sleep(SLEEP_TIME)
 
-remove("stop")
+remove(dir_path+"stop")
 print("RBL stopped.")
