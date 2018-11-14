@@ -33,8 +33,16 @@ def rblAlert(duration):
 # initialize
 if path.exists(dir_path+"stop"): remove(dir_path+"stop")
 auth = rq.auth.HTTPBasicAuth(CALLCENTER_USER, CALLCENTER_PASS)
-res = rq.get(CALLCENTER_URL+"now/", auth=auth)
-t_ref = res.json()["datetime"]
+if path.exists(dir_path+"t_ref"):
+    file_t_ref = open(dir_path+"t_ref", mode="r")
+    t_ref = file_t_ref.readline()
+    file_t_ref.close()
+else:
+    res = rq.get(CALLCENTER_URL+"now/", auth=auth)
+    t_ref = res.json()["datetime"]
+    file_t_ref = open(dir_path+"t_ref", mode="w")
+    file_t_ref.write(t_ref)
+    file_t_ref.close()
 
 while not path.exists(dir_path+"stop"):
     res = rq.get(CALLCENTER_URL, auth=auth)
@@ -42,6 +50,9 @@ while not path.exists(dir_path+"stop"):
     if new_t > t_ref:
         rblAlert(ROTATION_TIME)
         t_ref = new_t
+        file_t_ref = open(dir_path+"t_ref", mode="w")
+        file_t_ref.write(t_ref)
+        file_t_ref.close()
     sleep(SLEEP_TIME)
 
 remove(dir_path+"stop")
