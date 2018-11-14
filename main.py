@@ -7,7 +7,7 @@ import requests as rq
 from datetime import datetime
 import RPi.GPIO as GPIO
 
-dir_path = path.dirname(__file__)+"/"
+dir_path = path.dirname(path.abspath(__file__))+"/"
 CONFIG_FILENAME = dir_path+"config.yml"
 config = yaml.load(open(CONFIG_FILENAME))
 
