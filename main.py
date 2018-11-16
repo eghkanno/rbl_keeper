@@ -41,7 +41,7 @@ else:
     res = rq.get(CALLCENTER_URL+"now/", auth=auth)
     t_ref = res.json()["datetime"]
     file_t_ref = open(dir_path+"t_ref", mode="w")
-    file_t_ref.write(t_ref)
+    file_t_ref.write(t_ref + "\n")
     file_t_ref.close()
 
 while not path.exists(dir_path+"stop"):
@@ -51,7 +51,7 @@ while not path.exists(dir_path+"stop"):
         rblAlert(ROTATION_TIME)
         t_ref = new_t
         file_t_ref = open(dir_path+"t_ref", mode="w")
-        file_t_ref.write(t_ref)
+        file_t_ref.write(t_ref + "\n")
         file_t_ref.close()
     sleep(SLEEP_TIME)
 
