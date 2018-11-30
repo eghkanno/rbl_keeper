@@ -38,21 +38,29 @@ if path.exists(dir_path+"t_ref"):
     t_ref = file_t_ref.readline()
     file_t_ref.close()
 else:
-    res = rq.get(CALLCENTER_URL+"now/", auth=auth)
-    t_ref = res.json()["datetime"]
+    try:
+        res = rq.get(CALLCENTER_URL+"now/", auth=auth, timeout=10)
+        t_ref = res.json()["datetime"]
+    except:
+        t_ref = "1970-01-01 00:00:01"
     file_t_ref = open(dir_path+"t_ref", mode="w")
     file_t_ref.write(t_ref + "\n")
     file_t_ref.close()
 
 while not path.exists(dir_path+"stop"):
-    res = rq.get(CALLCENTER_URL, auth=auth)
-    new_t = res.json()["datetime"] if res.ok else t_ref
-    if new_t > t_ref:
-        rblAlert(ROTATION_TIME)
-        t_ref = new_t
-        file_t_ref = open(dir_path+"t_ref", mode="w")
-        file_t_ref.write(t_ref + "\n")
-        file_t_ref.close()
+    try:
+        res = rq.get(CALLCENTER_URL, auth=auth, timeout=10)
+        new_t = res.json()["datetime"] if res.ok else t_ref
+        if new_t > t_ref:
+            rblAlert(ROTATION_TIME)
+            t_ref = new_t
+            file_t_ref = open(dir_path+"t_ref", mode="w")
+            file_t_ref.write(t_ref + "\n")
+            file_t_ref.close()
+    except Exception as ex:
+        file_err_log = open(dir_path+"err_log", mode="a")
+        file_err_log.write(ex + "\n")
+        file_err_log.close()
     sleep(SLEEP_TIME)
 
 remove(dir_path+"stop")
