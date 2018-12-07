@@ -34,18 +34,16 @@ def rblAlert(duration):
 if path.exists(dir_path+"stop"): remove(dir_path+"stop")
 auth = rq.auth.HTTPBasicAuth(CALLCENTER_USER, CALLCENTER_PASS)
 if path.exists(dir_path+"t_ref"):
-    file_t_ref = open(dir_path+"t_ref", mode="r")
-    t_ref = file_t_ref.readline()
-    file_t_ref.close()
+    with open(dir_path+"t_ref", mode="r") as file_t_ref:
+        t_ref = file_t_ref.readline()
 else:
     try:
         res = rq.get(CALLCENTER_URL+"now/", auth=auth, timeout=10)
         t_ref = res.json()["datetime"]
     except:
         t_ref = "1970-01-01 00:00:01"
-    file_t_ref = open(dir_path+"t_ref", mode="w")
-    file_t_ref.write(t_ref + "\n")
-    file_t_ref.close()
+    with open(dir_path+"t_ref", mode="w") as file_t_ref:
+        file_t_ref.write(t_ref + "\n")
 
 # keep log files lines less than max_lines
 def limitMaxLines(filename, max_lines):
@@ -67,15 +65,13 @@ while not path.exists(dir_path+"stop"):
         if new_t > t_ref:
             rblAlert(ROTATION_TIME)
             t_ref = new_t
-            file_t_ref = open(dir_path+"t_ref", mode="w")
-            file_t_ref.write(t_ref + "\n")
-            file_t_ref.close()
+            with open(dir_path+"t_ref", mode="w") as file_t_ref:
+                file_t_ref.write(t_ref + "\n")
     except Exception as ex:
         local_now = datetime.now()
         now_str = local_now.strftime("%Y/%m/%d %H:%M:%S")
-        file_err_log = open(dir_path+"err_log", mode="a")
-        file_err_log.write(now_st r+ ", " + str(ex) + "\n")
-        file_err_log.close()
+        with open(dir_path+"err_log", mode="a") as file_err_log:
+            file_err_log.write(now_st r+ ", " + str(ex) + "\n")
         limitMaxLines("err_log", 15)
     sleep(SLEEP_TIME)
 
