@@ -31,9 +31,9 @@ def rblAlert(duration):
     GPIO.cleanup()
 
 # initialize
-if path.exists(dir_path+"stop"): remove(dir_path+"stop")
+if path.isfile(dir_path+"stop"): remove(dir_path+"stop")
 auth = rq.auth.HTTPBasicAuth(CALLCENTER_USER, CALLCENTER_PASS)
-if path.exists(dir_path+"t_ref"):
+if path.isfile(dir_path+"t_ref"):
     with open(dir_path+"t_ref", mode="r") as file_t_ref:
         t_ref = file_t_ref.readline()
 else:
@@ -58,7 +58,7 @@ def limitMaxLines(filename, max_lines):
         remove(dir_path+filename)
         rename("temp", filename)
 
-while not path.exists(dir_path+"stop"):
+while not path.isfile(dir_path+"stop"):
     try:
         res = rq.get(CALLCENTER_URL, auth=auth, timeout=10)
         new_t = res.json()["datetime"] if res.ok else t_ref
@@ -71,7 +71,7 @@ while not path.exists(dir_path+"stop"):
         local_now = datetime.now()
         now_str = local_now.strftime("%Y/%m/%d %H:%M:%S")
         with open(dir_path+"err_log", mode="a") as file_err_log:
-            file_err_log.write(now_st r+ ", " + str(ex) + "\n")
+            file_err_log.write(now_str+ ", " + str(ex) + "\n")
         limitMaxLines("err_log", 15)
     sleep(SLEEP_TIME)
 
