@@ -59,7 +59,7 @@ while not path.exists(dir_path+"stop"):
             file_t_ref.close()
     except Exception as ex:
         file_err_log = open(dir_path+"err_log", mode="a")
-        file_err_log.write(ex + "\n")
+        file_err_log.write(str(ex) + "\n")
         file_err_log.close()
     sleep(SLEEP_TIME)
 
