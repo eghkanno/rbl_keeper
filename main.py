@@ -58,8 +58,10 @@ while not path.exists(dir_path+"stop"):
             file_t_ref.write(t_ref + "\n")
             file_t_ref.close()
     except Exception as ex:
+        local_now = datetime.now()
+        now_str = local_now.strftime("%Y/%m/%d %H:%M:%S")
         file_err_log = open(dir_path+"err_log", mode="a")
-        file_err_log.write(str(ex) + "\n")
+        file_err_log.write(now_st r+ ", " + str(ex) + "\n")
         file_err_log.close()
     sleep(SLEEP_TIME)
 
