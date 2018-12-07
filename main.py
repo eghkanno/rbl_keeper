@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from time import sleep
-from os import path, remove
+from os import path, remove, rename
 import yaml, json
 import requests as rq
 from datetime import datetime
@@ -47,6 +47,19 @@ else:
     file_t_ref.write(t_ref + "\n")
     file_t_ref.close()
 
+# keep log files lines less than max_lines
+def limitMaxLines(filename, max_lines):
+    with open(filename) as f:
+        num_lines = sum(1 for line in f)
+    if num_lines > max_lines: # removes first line
+        with open(filename) as f:
+            f.readline() # throw away first line
+            with open("temp", mode="w") as tmp:
+                for l in f:
+                    tmp.write(l) # copy every subsequent lines
+        remove(dir_path+filename)
+        rename("temp", filename)
+
 while not path.exists(dir_path+"stop"):
     try:
         res = rq.get(CALLCENTER_URL, auth=auth, timeout=10)
@@ -63,6 +76,7 @@ while not path.exists(dir_path+"stop"):
         file_err_log = open(dir_path+"err_log", mode="a")
         file_err_log.write(now_st r+ ", " + str(ex) + "\n")
         file_err_log.close()
+        limitMaxLines("err_log", 15)
     sleep(SLEEP_TIME)
 
 remove(dir_path+"stop")
