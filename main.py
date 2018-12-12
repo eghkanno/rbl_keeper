@@ -47,16 +47,16 @@ else:
 
 # keep log files lines less than max_lines
 def limitMaxLines(filename, max_lines):
-    with open(filename) as f:
+    with open(dir_path + filename) as f:
         num_lines = sum(1 for line in f)
     if num_lines > max_lines: # removes first line
-        with open(filename) as f:
+        with open(dir_path + filename) as f:
             f.readline() # throw away first line
-            with open("temp", mode="w") as tmp:
+            with open(dir_path + "temp", mode="w") as tmp:
                 for l in f:
                     tmp.write(l) # copy every subsequent lines
-        remove(dir_path+filename)
-        rename("temp", filename)
+        remove(dir_path + filename)
+        rename(dir_path + "temp", dir_path + filename)
 
 while not path.isfile(dir_path+"stop"):
     try:
