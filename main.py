@@ -47,6 +47,8 @@ else:
 
 # keep log files lines less than max_lines
 def limitMaxLines(filename, max_lines):
+    if not path.isfile(filename):
+        return
     with open(dir_path + filename) as f:
         num_lines = sum(1 for line in f)
     if num_lines > max_lines: # removes first line
