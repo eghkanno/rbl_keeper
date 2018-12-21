@@ -46,19 +46,20 @@ else:
         file_t_ref.write(t_ref + "\n")
 
 # keep log files lines less than max_lines
-def limitMaxLines(filename, max_lines):
-    if not path.isfile(filename):
+def limitMaxLines(filepath, max_lines):
+    if not path.isfile(filepath):
         return
-    with open(dir_path + filename) as f:
+    with open(filepath) as f:
         num_lines = sum(1 for line in f)
     if num_lines > max_lines: # removes first line
-        with open(dir_path + filename) as f:
-            f.readline() # throw away first line
-            with open(dir_path + "temp", mode="w") as tmp:
+        with open(filepath) as f:
+            for i in range(num_lines-max_lines):
+                f.readline() # throw away first line
+            with open(path.dirname(filepath) + "/temp", mode="w") as tmp:
                 for l in f:
                     tmp.write(l) # copy every subsequent lines
-        remove(dir_path + filename)
-        rename(dir_path + "temp", dir_path + filename)
+        remove(filepath)
+        rename(path.dirname(filepath) + "/temp", filepath)
 
 while not path.isfile(dir_path+"stop"):
     try:
@@ -74,7 +75,7 @@ while not path.isfile(dir_path+"stop"):
         now_str = local_now.strftime("%Y/%m/%d %H:%M:%S")
         with open(dir_path+"err_log", mode="a") as file_err_log:
             file_err_log.write(now_str+ ", " + str(ex) + "\n")
-        limitMaxLines("err_log", 15)
+        limitMaxLines(dir_path+"err_log", 15)
     sleep(SLEEP_TIME)
 
 remove(dir_path+"stop")
